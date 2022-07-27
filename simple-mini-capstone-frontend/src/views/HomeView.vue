@@ -8,6 +8,7 @@ export default {
       message: "All Products!",
       errors: [],
       currentProduct: {},
+      editProduct: {},
       products: [],
       newProductName: "",
       newProductPrice: 0,
@@ -51,7 +52,13 @@ export default {
     showProduct: function (product) {
       console.log(product);
       this.currentProduct = product;
+      this.editProduct = product;
       document.querySelector("#product-info").showModal();
+    },
+    updateProduct: function (productToEdit) {
+      axios.patch(`http://localhost:3000/products/${productToEdit.id}.json`, productToEdit).then((response) => {
+        console.log(response.data);
+      });
     },
   },
 };
@@ -85,6 +92,17 @@ export default {
         <p>Name: {{ currentProduct.name }}</p>
         <p>Price: {{ currentProduct.price }}</p>
         <p>Description: {{ currentProduct.description }}</p>
+        <h2>Edit Recipe:</h2>
+        Name:
+        <input type="text" v-model="editProduct.name" />
+        <p></p>
+        Price:
+        <input type="text" v-model="editProduct.price" />
+        <p></p>
+        Description:
+        <input type="text" v-model="editProduct.description" />
+        <p></p>
+        <button v-on:click="updateProduct(editProduct)">Update</button>
         <button>Close</button>
       </form>
     </dialog>
