@@ -121,4 +121,9 @@ export default {
 .errors {
   color: darkred;
 }
+.home {
+  background-color: rgb(121, 175, 175);
+  border: 2px solid rgb(89, 56, 56);
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
 </style>
