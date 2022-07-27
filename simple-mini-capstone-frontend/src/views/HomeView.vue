@@ -60,6 +60,13 @@ export default {
         console.log(response.data);
       });
     },
+    destroyProduct: function (product) {
+      axios.delete(`http://localhost:3000/products/${product.id}`).then((response) => {
+        console.log(response.data);
+        var index = this.products.indexOf(product);
+        this.products.splice(index, 1);
+      });
+    },
   },
 };
 </script>
@@ -103,6 +110,7 @@ export default {
         <input type="text" v-model="editProduct.description" />
         <p></p>
         <button v-on:click="updateProduct(editProduct)">Update</button>
+        <button v-on:click="destroyProduct(currentProduct)">Delete</button>
         <button>Close</button>
       </form>
     </dialog>
