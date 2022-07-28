@@ -10,10 +10,7 @@ export default {
       currentProduct: {},
       editProduct: {},
       products: [],
-      newProductName: "",
-      newProductPrice: 0,
-      newProductDescription: "",
-      newProductImageUrl: "",
+      newProduct: {},
     };
   },
   created: function () {
@@ -27,22 +24,12 @@ export default {
       });
     },
     createProduct: function () {
-      console.log("New product created!");
-      var params = {
-        name: this.newProductName,
-        price: this.newProductPrice,
-        description: this.newProductDescription,
-        image_url: this.newProductImageUrl,
-      };
       axios
-        .post("http://localhost:3000/products.json", params)
+        .post("http://localhost:3000/products.json", this.newProduct)
         .then((response) => {
           console.log("Success!", response.data);
           this.products.push(response.data);
-          (this.newProductName = ""),
-            (this.newProductPrice = 0),
-            (this.newProductDescription = ""),
-            (this.newProductImageUrl = "");
+          this.newProduct = "";
         })
         .catch((error) => {
           console.log(error.response.data.errors);
@@ -76,13 +63,13 @@ export default {
     <h1>{{ message }}</h1>
     <h2>New Product</h2>
     Name:
-    <input type="text" v-model="newProductName" />
+    <input type="text" v-model="newProduct.name" />
     Price:
-    <input type="text" v-model="newProductPrice" />
+    <input type="text" v-model="newProduct.price" />
     Description:
-    <input type="text" v-model="newProductDescription" />
+    <input type="text" v-model="newProduct.description" />
     ImageUrl:
-    <input type="text" v-model="newProductImageUrl" />
+    <input type="text" v-model="newProduct.image_url" />
     <button v-on:click="createProduct()">Create Product</button>
     <div class="errors" v-for="error in errors" v-bind:key="error">
       {{ errors }}
@@ -96,19 +83,22 @@ export default {
     <dialog id="product-info">
       <form method="dialog">
         <h2>Product Info:</h2>
-        <p>Name: {{ currentProduct.name }}</p>
-        <p>Price: {{ currentProduct.price }}</p>
-        <p>Description: {{ currentProduct.description }}</p>
-        <h2>Edit Recipe:</h2>
-        Name:
-        <input type="text" v-model="editProduct.name" />
-        <p></p>
-        Price:
-        <input type="text" v-model="editProduct.price" />
-        <p></p>
-        Description:
-        <input type="text" v-model="editProduct.description" />
-        <p></p>
+        <p>
+          Name:
+          <input type="text" v-model="currentProduct.name" />
+        </p>
+        <p>
+          Price:
+          <input type="text" v-model="currentProduct.price" />
+        </p>
+        <p>
+          Description:
+          <input type="text" v-model="currentProduct.description" />
+        </p>
+        <p>
+          Image Url:
+          <input type="text" v-model="currentProduct.image_url" />
+        </p>
         <button v-on:click="updateProduct(editProduct)">Update</button>
         <button v-on:click="destroyProduct(currentProduct)">Delete</button>
         <button>Close</button>
